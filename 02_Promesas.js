@@ -25,36 +25,36 @@ const retrasar = milisegundos => new Promise(resolve => setTimeout(resolve, mili
 // Función que retorna los datos de provincias
 const obtenerPcias = async () => {
     await retrasar(1800);
-
-    const consulta = fetch('https://apis.datos.gob.ar/georef/api/provincias');
+    const consulta = await fetch('https://apis.datos.gob.ar/georef/api/provincias');
+    return consulta;
 }
 
 // Función que retorna los datos de departamentos
-const obtenerDptos = () => {
+const obtenerDptos = async () => {
     await retrasar(1391);
 
-    const consulta = fetch('');
+    const consulta = await fetch('https://apis.datos.gob.ar/georef/api/departamentos');
+    return consulta;
 }
 
 // Función que retorna los datos de localidades
-const obtenerLocalidades = () => {
+const obtenerLocalidades = async () => {
     await retrasar(900);
 
-    const consulta = fetch('');
+    const consulta = await fetch('https://apis.datos.gob.ar/georef/api/localidades');
+    return consulta;
 }
-
 
 
 
 // Funcion para obtener todos los datos
-const consultarDatos = () => {
-    const provincias = obtenerPcias();
-    const dptos = obtenerDptos();
-    const localidades = obtenerLocalidades();
+const consultarDatos = async () => {
+    const provincias = await obtenerPcias().then(resp=>resp.json());
+    const dptos = await obtenerDptos().then(resp=>resp.json());
+    const localidades = await obtenerLocalidades().then(resp=>resp.json());
 
-    console.log(provincias);
-    console.log(dptos);
-    console.log(localidades);
+    console.log(provincias.provincias);
+    console.log(dptos.departamentos);
+    console.log(localidades.localidades);
 }
-
 consultarDatos();
