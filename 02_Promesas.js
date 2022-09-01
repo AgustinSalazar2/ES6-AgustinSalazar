@@ -26,10 +26,10 @@ const obtenerPcias = async () => {
     await retrasar(1800);
     try {
         const consulta = await fetch('https://apis.datos.gob.ar/georef/api/provincias');
-        const jsonResp = await consulta.json();
+        const jsonResp = await consulta.json().then(resp=>resp.provincias);
         return jsonResp;
     } catch (error) {
-        console.log(error);
+        return error
     }
 }
 
@@ -37,11 +37,11 @@ const obtenerPcias = async () => {
 const obtenerDptos = async () => {
     await retrasar(1391);
     try {
-        const consulta = await fetch('https://apis.datos.gob.ar/georef/api/departamentos');
-        const jsonResp = await consulta.json();
+        const consulta = await fetch('https://apis.datos.gob.ar/georef/api/departamentos?max=529');
+        const jsonResp = await consulta.json().then(resp=>resp.departamentos);
         return jsonResp;
     } catch (error) {
-        console.log(error)
+        return error
     }
 }
 
@@ -49,11 +49,11 @@ const obtenerDptos = async () => {
 const obtenerLocalidades = async () => {
     await retrasar(900);
     try {
-        const consulta = await fetch('https://apis.datos.gob.ar/georef/api/localidades');
-        const jsonResp = await consulta.json();
+        const consulta = await fetch('https://apis.datos.gob.ar/georef/api/localidades?max=4150');
+        const jsonResp = await consulta.json().then(resp=>resp.localidades);
         return jsonResp;
     } catch (error) {
-        console.log(error)
+        return error
     }
 }
 
@@ -61,9 +61,9 @@ const obtenerLocalidades = async () => {
 
 // Funcion para obtener todos los datos
 const consultarDatos = async () => {
-    const provincias = await obtenerPcias().then(resp=>resp.provincias).catch(err=>console.log(err));
-    const dptos = await obtenerDptos().then(resp=>resp.departamentos).catch(err=>console.log(err));
-    const localidades = await obtenerLocalidades().then(resp=>resp.localidades).catch(err=>console.log(err));
+    const provincias = await obtenerPcias()
+    const dptos = await obtenerDptos()
+    const localidades = await obtenerLocalidades()
 
     console.log(provincias);
     console.log(dptos);
